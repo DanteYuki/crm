@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xykj.business.dao.classManage.CourseClassDao">
+    <resultMap id="base" type="CourseClass">
+    	<id column="id" property="id" />
+    	<result property="className" column="className"/>
+    	<result property="assistTime" column="assistTime"/>
+    	<result property="prepareTime" column="prepareTime"/>
+    	<result property="openTime" column="openTime"/>
+    	<result property="planCount" column="planCount"/>
+    	<result property="realCount" column="realCount"/>
+    	<result property="headTeacher" column="headTeacher"/>
+    	<result property="courseTeacher" column="courseTeacher"/>
+    	<result property="subject" column="subject"/>
+    	<result property="description" column="description"/>
+    	<association property="city" column="cityId" javaType="City">
+    		<id property="id" column="city_id"/>
+    		<result property="cityName" column="city_name"/>
+    		<result property="province" column="province"/>
+    	</association>
+    	<association property="campus" column="campusId" javaType="Campus">
+    		<id property="id" column="campus_id"/>
+    		<result property="campusName" column="campus_name"/>
+    		<result property="campusLocation" column="campus_location"/>
+    		<result property="manager" column="campus_manager"/>
+    		<result property="mobile" column="campus_mobile"/>
+    		<result property="email" column="campus_email"/>
+    		<result property="description" column="campus_description"/>
+    	</association>
+    </resultMap>
+    <insert id="insert" parameterType="CourseClass">
+    	insert into tb_course_class (id,className,cityId,campusId,assistTime,prepareTime,openTime,
+    	planCount,realCount,headTeacher,courseTeacher,subject,description) values (
+    		#{id},#{className},#{city.id},#{campus.id},#{assistTime},#{prepareTime},#{openTime},
+    		#{planCount},#{realCount},#{headTeacher},#{courseTeacher},#{subject},#{description}
+    	)
+    </insert>
+
+    <delete id="delete" parameterType="CourseClass">
+    	delete from tb_course_class where id = #{id}
+    </delete>
+    <!-- 修改 -->
+    <update id="update" parameterType="CourseClass">
+    	update tb_course_class set 
+    	className=#{className},cityId=#{city.id},campusId=#{campus.id},assistTime=#{assistTime},
+    	prepareTime=#{prepareTime},openTime=#{openTime},planCount=#{planCount},realCount=#{realCount},
+    	headTeacher=#{headTeacher},courseTeacher=#{courseTeacher},subject=#{subject},description=#{description} 
+    	where id = #{id}
+    </update>
+	
+    <!-- 初始化查询 -->
+    <select id="findByPage" resultMap="base" parameterType="CourseClass">
+    	select t1.*,
+		t2.id city_id,t2.cityName city_name,t2.province province,
+		t3.id campus_id,t3.campusName campus_name,t3.campusLocation campus_location,
+		t3.manager campus_manager,t3.mobile campus_mobile,t3.email campus_email,t3.description campus_description
+		from tb_course_class t1,tb_city t2,tb_campus t3 where t2.id=t1.cityId
+    	and t3.id = t1.campusId
+    </select>
+
+    <select id="find" resultMap="base" parameterType="CourseClass">
+    	select t1.*,
+		t2.id city_id,t2.cityName city_name,t2.province province,
+		t3.id campus_id,t3.campusName campus_name,t3.campusLocation campus_location,
+		t3.manager campus_manager,t3.mobile campus_mobile,t3.email campus_email,t3.description campus_description
+		from tb_course_class t1,tb_city t2,tb_campus t3 where t1.id=#{id} and t2.id=t1.cityId
+    	and t3.id = t1.campusId
+    </select>
+    
+    <select id="findOne" resultMap="base" parameterType="CourseClass">
+   		select t1.*,
+		t2.id city_id,t2.cityName city_name,t2.province province,
+		t3.id campus_id,t3.campusName campus_name,t3.campusLocation campus_location,
+		t3.manager campus_manager,t3.mobile campus_mobile,t3.email campus_email,t3.description campus_description
+		from tb_course_class t1,tb_city t2,tb_campus t3 where t1.id=#{id} and t2.id=t1.cityId
+    	and t3.id = t1.campusId
+    </select>
+</mapper>

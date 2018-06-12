@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xykj.business.dao.classManage.StepIntoClassDao">
+    <resultMap id="base" type="StepIntoClass"></resultMap>
+    <insert id="insert" parameterType="StepIntoClass">
+    	insert into tb_step_class (id,cityId,campusId,advisor,backgroundInfo,education,age,
+    	classId,headTeacher,courseTeacher,fbFromCT,fbFromHT) values 
+    	(#{id},#{cityId},#{campusId},#{advisor},#{backgroundInfo},#{education},#{age},
+    	#{classId},#{headTeacher},#{courseTeacher},#{fbFromCT},#{fbFromHT})
+    </insert>
+
+    <delete id="delete" parameterType="StepIntoClass">
+    	delete from tb_step_class where id = #{id}
+    </delete>
+    <!-- 修改 -->
+    <update id="update" parameterType="StepIntoClass">
+    	update tb_step_class set cityId = #{cityId},
+    	campusId = #{campusId},
+    	advisor = #{advisor},
+    	backgroundInfo = #{backgroundInfo},
+    	education = #{education},
+    	age = #{age},
+    	classId = #{classId},
+    	headTeacher = #{headTeacher},
+    	courseTeacher = #{courseTeacher},
+    	fbFromHT = #{fbFromHT},
+    	fbFromCT = #{fbFromCT}
+    	where id = #{id}
+    </update>
+	
+    <!-- 初始化查询 -->
+    <select id="findByPage" resultMap="base" parameterType="StepIntoClass">
+    	select * from tb_step_class
+    </select>
+
+    <select id="find" resultType="StepIntoClass" parameterType="StepIntoClass">
+    	select * from tb_step_class where id = #{id}
+    </select>
+</mapper>

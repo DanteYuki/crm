@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xykj.business.dao.channel.ContactDao">
+    <resultMap id="base" type="Contact"></resultMap>
+    <insert id="insert" parameterType="Contact">
+    	insert into tb_contact (contactName,mobile,schoolId,post) values (
+    		#{contactName},#{mobile},#{schoolId},#{post}
+    	)
+    </insert>
+
+    <delete id="delete" parameterType="Contact">
+    </delete>
+    <!-- 修改 -->
+    <update id="update" parameterType="Contact">
+    </update>
+	
+    <!-- 初始化查询 -->
+    <select id="findByPage" resultMap="base" parameterType="Contact">
+    </select>
+
+    <select id="find" resultType="Contact" parameterType="Contact">
+    </select>
+    
+    <delete id="deleteById">
+    	delete from tb_contact where schoolId = #{schoolId}
+    </delete>
+    <!-- 查询某学校联系人 -->
+    <select id="findBySchoolId" resultMap="base">
+    	select * from tb_contact where schoolId = #{schoolId}
+    </select>
+</mapper>

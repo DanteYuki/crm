@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xykj.base.dao.sys.role.RoleDao">
+    <resultMap id="base" type="Role"></resultMap>
+    <resultMap id="permission" type="Permission"></resultMap>
+    <insert id="insert" parameterType="Role">
+		insert into sys_role (roleId,roleName,status,description) values 
+		(#{roleId},#{roleName},#{status},#{description})
+    </insert>
+
+    <delete id="delete" parameterType="Role">
+    	delete from sys_role where roleId = #{roleId}
+    </delete>
+    <!-- 修改 -->
+    <update id="update" parameterType="Role">
+     	update sys_role set
+     	roleName = #{roleName},
+     	status = #{description},
+     	description = #{description}
+     	where roleId = #{roleId}
+    </update>
+
+    <!-- 初始化查询 -->
+    <select id="findByPage" resultMap="base" parameterType="Role">
+        select * from sys_role
+    </select>
+
+    <select id="find" resultType="Role" parameterType="Role">
+        select * from sys_role where roleId = #{roleId}
+    </select>
+    
+    <!-- 获取角色对应的权限信息 -->
+    <select id="getPermissions" resultType="permission">
+    	select s.* from sys_permission s ,sys_role_permission t
+    	where s.roleId = t.roleId
+    </select>
+</mapper>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xykj.base.dao.sys.account.AccountDao">
+    <resultMap id="base" type="Account"></resultMap>
+    <resultMap id="role" type="Role"></resultMap>
+    <insert id="insert" parameterType="Account">
+		insert into sys_account (accountId,accountName,password,nickName,
+		realName,headPicture,emailAddress,emailPassword,
+		createTime,createBy,updateTime,updateBy,status,description) values 
+		(#{accountId},#{accountName},#{password},#{nickName},
+		#{realName},#{headPicture},#{emailAddress},#{emailPassword},
+		#{createTime},#{createBy},#{updateTime},#{updateBy},#{status},#{description})
+    </insert>
+
+    <delete id="delete" parameterType="Account">
+     	delete from sys_account where accountId = #{accountId}
+    </delete>
+    <!-- 修改 -->
+    <update id="update" parameterType="Account">
+     	update sys_account set 
+     	accountName = #{accountName},
+     	nickName = #{nickName},
+     	realName = #{realName},
+     	headPicture = #{headPicture},
+     	emailAddress = #{emailAddress},
+     	emailPassword = #{emailPassword},
+     	updateTime = #{updateTime},
+     	updateBy = #{updateBy}
+     	where accountId = #{accountId}
+    </update>
+
+    <!-- 初始化查询 -->
+    <select id="findByPage" resultMap="base" parameterType="Account">
+        select * from sys_account
+    </select>
+
+    <select id="find" resultType="Account" parameterType="Account">
+        select * from sys_account where accountId = #{accountId}
+    </select>
+    
+    <!--获取账户拥有的角色列表  -->
+    <select id="findRolesByAccount" resultType="role" parameterType="Account">
+    	select r.* from sys_role r, sys_account_role s where r.roleId = s.roleId 
+    	and s.accountId = #{accountId}
+    </select>
+    
+    <!-- 级联删除账户拥有的所有角色 -->
+    <select id="deleteByAccount" parameterType="Account">
+    	delete from sys_account_role where accountId = #{accountId};
+    </select>
+    
+    <!-- 插入账户角色信息 -->
+    <select id="insertAccountRole">
+    	insert into sys_account_role (roleId,accountId) values 
+    		<foreach collection="roleIds" item="roleId" separator="," close="">
+    			(#{roleId},#{accountId})
+    		</foreach>
+    </select>
+    
+    <select id="findByNameAndPwd" parameterType="Account" resultType="Account">
+    	select * from sys_account where accountName = #{accountName} and password = #{password}
+    </select>
+    
+    <insert id="insertAccountRoleBatch" >
+    	insert into sys_account_role values (#{roleId},#{accountId})
+    </insert>
+</mapper>

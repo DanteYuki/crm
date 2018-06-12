@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xykj.business.dao.social.SocialDao">
+    <resultMap id="base" type="Social"></resultMap>
+    <insert id="insert" parameterType="Social">
+    	insert into tb_social_advertise (id,sname,sage,sgender,mobile,email,qq,
+    	wx,arriveTime,education,graduateYear,graduateFrom,
+    	address,creatTime,creatBy,advisor,source,job,
+    	invitor,feedback,teacher,status,isTry,isPay) values (
+    		#{id},#{sname},#{sage},#{sgender},#{mobile},#{email},#{qq},#{wx},#{arriveTime},
+	    	#{education},#{graduateYear},#{graduateFrom},#{address},#{advisor},#{source},
+	    	#{job},#{invitor},#{feedback},#{teacher},#{status},#{isTry},#{isPay}
+    	)
+    </insert>
+
+    <delete id="delete" parameterType="City">
+    	delete from tb_social_advertise where id = #{id}
+    </delete>
+    <!-- 修改 -->
+    <update id="update" parameterType="City">
+    	update tb_social_advertise set
+    	sname = #{sname},
+    	sage = #{sage},
+    	sgender = #{sgender},
+    	mobile = #{mobile},
+    	email = #{email},
+    	qq = #{qq},
+    	wx = #{wx},
+    	arriveTime = #{arriveTime},
+    	education = #{education},
+    	graduateYear = #{graduateYear},
+    	graduateFrom = #{graduateFrom},
+    	address = #{address},
+    	advisor = #{advisor},
+    	source = #{source},
+    	job = #{job},
+    	invitor = #{invitor},
+    	feedback = #{feedback}
+    	where id = #{id}
+    </update>
+	
+    <!-- 初始化查询 -->
+    <!-- 模糊匹配 -->
+    <select id="findByPage" resultMap="base" parameterType="City">
+    	select 
+    	t1.id,t1.sname,t1.sage,t1.sgender,t1.mobile,t1.email,t1.qq,
+    	t1.wx,t1.arriveTime,t1.education,t1.graduateYear,t1.graduateFrom,
+    	t1.address,t1.creatTime,t1.creatBy,t1.advisor,t1.source,t1.job,
+    	t1.invitor,t1.feedback
+    	from tb_social_advertise t1
+    	where 1 = 1 
+    	<if test="param.status != null and params.status != ''">
+    		and t1.status = #{param.status}
+    	</if>
+    	<!-- 模糊查询人名 -->
+    	<if test="param.sname != null and param.sname != ''">
+    		and t1.sname like concat('%',#{param.sname},'%')
+    	</if>
+    	<!-- 模糊查询电话号码 -->
+    	<if test="param.mobile != null and param.mobile != ''">
+    		and t1.mobile like concat('%',#{param.mobile},'%')
+    	</if>
+    	<!-- 登记日期 -->
+    	<if test="param.arriveTime != null and param.arriveTime != ''">
+    		and t1.arriveTime = #{param.arriveTime}
+    	</if>
+    	<!-- 状态 -->
+    	<if test="param.status != null and param.status != ''">
+    		and t1.status = #{param.status}
+    	</if>
+    	<!-- 是否已参与试学 -->
+    	<if test="param.isTry != null and param.isTry != ''">
+    		and t1.isTry = #{param.isTry}
+    	</if>
+    	<!-- 是否已报名 -->
+    	<if test="param.isPay != null and param.isPay != ''">
+    		and t1.isPay = #{param.isPay}
+    	</if>
+    </select>
+	<!-- 查询单个上门人员信息 -->
+    <select id="find" resultType="City" parameterType="City">
+    	select * from tb_social_advertise where id = #{id}
+    </select>
+</mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xykj.business.dao.channel.ChannelStudentDao">
+    <resultMap id="base" type="ChannelStudent"></resultMap>
+    <insert id="insert" parameterType="ChannelStudent">
+    	insert into tb_channel_student (id,sname,sage,sgender,schoolName,education,mobile,email,qq,wx,createTime,createBy)
+    	values (#{id},#{sname},#{sage},#{sgender},#{schoolName},#{education},#{mobile},#{email},#{qq},#{wx},#{createTime},#{createBy})
+    </insert>
+
+    <delete id="delete" parameterType="ChannelStudent">
+    	delete from tb_channel_student where id = #{id}
+    </delete>
+    <!-- 修改 -->
+    <update id="update" parameterType="ChannelStudent">
+    </update>
+	
+    <!-- 初始化查询 -->
+    <select id="findByPage" resultMap="base" parameterType="ChannelStudent">
+    	select * from tb_channel_student
+    </select>
+
+    <select id="find" resultType="ChannelStudent" parameterType="ChannelStudent">
+    </select>
+</mapper>

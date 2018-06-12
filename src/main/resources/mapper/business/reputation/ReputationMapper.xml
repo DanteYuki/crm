@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xykj.business.dao.reputation.ReputationDao">
+    <resultMap id="base" type="Reputation"></resultMap>
+    <insert id="insert" parameterType="Reputation">
+    	insert into tb_reputation (id,name,age,gender,mobile,qq,wx,email,status,subject,entryFee,
+    	tuitionFee,advisor,recommonendFee,graduateFrom,graduateYear,education,createBy,createTime)
+    	values (
+    		#{id},#{name},#{age},#{gender},#{mobile},#{qq},#{wx},#{email},#{status},#{subject},#{entryFee},
+    		#{tuitionFee},#{advisor},#{recommonendFee},#{graduateFrom},#{graduateYear},#{education},#{createBy},#{createTime}
+    	)
+    </insert>
+
+    <delete id="delete" parameterType="Reputation">
+    	delete from tb_reputation where id = #{id}
+    </delete>
+    <!-- 修改 -->
+    <update id="update" parameterType="Reputation">
+    	update tb_reputation set name = #{name},age = #{age},gender = #{gender},mobile = #{mobile},qq=#{qq},wx=#{wx},
+    	email=#{email},status=#{status},subject=#{subject},entryFee=#{entryFee},tuitionFee=#{tuitionFee},
+    	advisor=#{advisor},recommonendFee=#{recommonendFee},graduateFrom=#{graduateFrom},graduateYear=#{graduateYear},
+    	education=#{education} where id = #{id}
+    </update>
+	
+    <!-- 初始化查询 -->
+    <select id="findByPage" resultMap="base" parameterType="Reputation">
+    	select * from tb_reputation
+    </select>
+
+    <select id="find" resultType="Reputation" parameterType="Reputation">
+    	select * from tb_reputation where id = #{id}
+    </select>
+</mapper>

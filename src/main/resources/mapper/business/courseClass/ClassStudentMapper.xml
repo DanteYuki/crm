@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xykj.business.dao.classManage.ClassStudentDao">
+    <resultMap id="base" type="ClassStudent"></resultMap>
+    <insert id="insert" parameterType="ClassStudent">
+    	insert into tb_class_student (id,name,gender,age,mobile,qq,wx,education,remark,classId,
+    	credit,socialId,reputationId,channelId) values (
+    	#{id},#{name},#{gender},#{age},#{mobile},#{qq},#{wx},#{education},#{remark},#{classId},
+    	#{credit},#{socialId},#{reputationId},#{channelId}
+    	)
+    </insert>
+
+    <delete id="delete" parameterType="ClassStudent">
+    	delete from tb_class_student where id = #{id}
+    </delete>
+    <!-- 修改 -->
+    <update id="update" parameterType="ClassStudent">
+    	update tb_class_student set name = #{name},gender = #{gender},age = #{age}, mobile = #{mobile},
+    	qq = #{qq},wx = #{wx},education = #{education},remark = #{remark},classId = #{classId},
+    	credit = #{credit},socialId = #{socialId},reputationId = #{reputationId},
+    	channelId = #{channelId}
+    </update>
+	
+    <!-- 初始化查询 -->
+    <select id="findByPage" resultMap="base" parameterType="ClassStudent">
+    	select * from tb_class_student
+    </select>
+
+    <select id="find" resultType="ClassStudent" parameterType="ClassStudent">
+    	select * from tb_class_student where id = #{id}
+    </select>
+</mapper>
