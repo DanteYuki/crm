@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xykj.base.commom.RsyResponse;
@@ -38,12 +39,12 @@ public class ChannelStudentController extends BaseController<ChannelStudent>{
 	//添加
     @RequestMapping(value = "insert")
     @ResponseBody
-    public RsyResponse add(ChannelStudent channelStudent) {
+    public RsyResponse add(ChannelStudent channelStudent,@RequestParam("classId")String classId) {
         try {
-        	channelStudentService.insert(channelStudent);
+        	channelStudentService.insertStudent(channelStudent, classId);
             return RsyResponse.success("添加成功");
         } catch (Exception e) {
-
+        	e.printStackTrace();
         }
         return RsyResponse.error("添加失败");
     }

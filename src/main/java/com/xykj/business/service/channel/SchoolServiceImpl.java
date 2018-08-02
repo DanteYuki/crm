@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.xykj.base.service.BaseServiceImpl;
+import com.xykj.base.service.token.TokenManager;
 import com.xykj.base.util.Page;
-import com.xykj.base.util.RsySessionUtil;
 import com.xykj.base.util.UuidUtil;
 import com.xykj.business.dao.channel.ContactDao;
 import com.xykj.business.dao.channel.SchoolDao;
@@ -20,28 +20,28 @@ import com.xykj.business.entity.channel.School;
 public class SchoolServiceImpl extends BaseServiceImpl<School> implements SchoolService{
 	@Autowired 
 	private SchoolDao schoolDao;
-	
 	@Autowired 
 	private ContactDao contactDao;
-	
 	@Autowired
-	private RsySessionUtil rsySessionUtil;
-
+	private TokenManager tokenManager;
+	
+	
+	/**
+	 * 插入渠道校园
+	 */
 	@Transactional
 	@Override
 	public void insert(School o) {
-		List<Contact> contacts = o.getContacts();
-		String createBy = rsySessionUtil.getRsySession().getAccount().getAccountName();
-		o.setCreateBy(createBy);
-		o.setCreateTime(new Date());
 		o.setId(UuidUtil.get32UUID());
-		for(Contact c : contacts) {
-			c.setSchoolId(o.getId());
-			contactDao.insert(c);
-		}
+		String accountName = tokenManager.getCurrentAccount(o.getToken().split("_")[0]).getAccountName();
+		o.setCreateBy(accountName);
+		o.setCreateTime(new Date());
 		schoolDao.insert(o);
 	}
 
+	/**
+	 * 删除渠道校园
+	 */
 	@Transactional
 	@Override
 	public void delete(School o) {
@@ -61,12 +61,32 @@ public class SchoolServiceImpl extends BaseServiceImpl<School> implements School
 		return page;
 	}
 
+	/**
+	 * 查询某个渠道校园,包括联系人信息
+	 */
 	@Override
 	public School find(School o) {
 		School school = schoolDao.find(o);
 		List<Contact> contacts = contactDao.findBySchoolId(o.getId());
 		school.setContacts(contacts);
 		return school;
+	}
+
+	@Override
+	public List<School> findSchools() {
+		return schoolDao.findSchools();
+	}
+
+	/**
+	 * 添加校园联系人
+	 *
+	 * @params
+	 * @return
+	 */
+	@Override
+	public void insertContact(School school,Contact contact) {
+		contact.setSchoolId(school.getId());
+		contactDao.insert(contact);
 	}
 
 	

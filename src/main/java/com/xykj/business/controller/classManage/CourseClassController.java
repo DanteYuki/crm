@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xykj.base.commom.RsyResponse;
@@ -30,7 +31,7 @@ public class CourseClassController extends BaseController<CourseClass>{
             map.put("list", pageModel);
             return RsyResponse.success("", map);
         } catch (Exception e) {
-
+        	e.printStackTrace();
         }
 
         return RsyResponse.error("");
@@ -87,6 +88,13 @@ public class CourseClassController extends BaseController<CourseClass>{
         }
         return RsyResponse.error("查询失败");
     }
+    
+    /**
+     * 获取当前班级
+     *
+     * @params
+     * @return
+     */
     @RequestMapping(value = "find")
     @ResponseBody
     public RsyResponse findOne(CourseClass courseClass) {
@@ -97,5 +105,25 @@ public class CourseClassController extends BaseController<CourseClass>{
     		
     	}
     	return RsyResponse.error("查询失败");
+    }
+    
+    
+    /**
+     * 获取 一个校区所有的班级
+     *
+     * @params
+     * @return
+     */
+    @RequestMapping("findAllClass")
+    @ResponseBody
+    public RsyResponse findAllClass(@RequestParam("campusId")String campusId) {
+    	
+    	try {
+			List<CourseClass> list = courseClassService.findAllClassByCampusId(campusId);
+			return RsyResponse.success("获取校区班级成功", list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	return RsyResponse.error("获取数据异常");
     }
 }

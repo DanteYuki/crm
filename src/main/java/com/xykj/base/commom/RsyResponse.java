@@ -92,4 +92,5 @@ public class RsyResponse implements Serializable {
     public static RsyResponse error(String message, Object data) {
         return new RsyResponse(false, message, data, (Integer)null);
     }
+    
 }

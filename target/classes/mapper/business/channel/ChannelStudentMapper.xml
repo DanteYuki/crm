@@ -4,7 +4,8 @@
     <resultMap id="base" type="ChannelStudent"></resultMap>
     <insert id="insert" parameterType="ChannelStudent">
     	insert into tb_channel_student (id,sname,sage,sgender,schoolName,education,mobile,email,qq,wx,createTime,createBy)
-    	values (#{id},#{sname},#{sage},#{sgender},#{schoolName},#{education},#{mobile},#{email},#{qq},#{wx},#{createTime},#{createBy})
+    	values (#{id},#{sname},#{sage},#{sgender},#{schoolName},#{education},#{mobile},#{email},#{qq},#{wx},
+    	#{createTime},#{createBy})
     </insert>
 
     <delete id="delete" parameterType="ChannelStudent">
@@ -12,13 +13,33 @@
     </delete>
     <!-- 修改 -->
     <update id="update" parameterType="ChannelStudent">
+    	update tb_channel_student set sname = #{sname},sage = #{sage},sgender = #{sgender},schoolName = #{schoolName},
+    	education = #{education},mobile = #{mobile},email = #{email},qq = #{qq},wx = #{wx}
+    	where id = #{id}
     </update>
 	
     <!-- 初始化查询 -->
     <select id="findByPage" resultMap="base" parameterType="ChannelStudent">
-    	select * from tb_channel_student
+    	select * from tb_channel_student where 1 = 1
+    	<if test="param.sname != null and param.sname != ''">
+    		and sname like concat('%',#{param.sname},'%')
+    	</if>
+    	<if test="param.schoolName != null and param.schoolName != ''">
+    		and schoolName like concat('%',#{param.schoolName},'%')
+    	</if>
+    	<if test="param.mobile != null and param.mobile != ''">
+    		and mobile like concat('%',#{param.mobile},'%')
+    	</if>
+ 	    <if test="param.qq != null and param.qq != ''">
+    		and qq like concat('%',#{param.qq},'%')
+    	</if>
+ 	    <if test="param.wx != null and param.wx != ''">
+    		and wx like concat('%',#{param.wx},'%')
+    	</if>
+    	order by schoolName asc , createTime desc
     </select>
 
     <select id="find" resultType="ChannelStudent" parameterType="ChannelStudent">
+    	select * from tb_channel_student where id = #{id}
     </select>
 </mapper>

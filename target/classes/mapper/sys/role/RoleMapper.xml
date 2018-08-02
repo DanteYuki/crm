@@ -22,7 +22,14 @@
 
     <!-- 初始化查询 -->
     <select id="findByPage" resultMap="base" parameterType="Role">
-        select * from sys_role
+        select * from sys_role where 1 = 1 
+        <if test="param.roleName != null and param.roleName != ''">
+        	and roleName like concat('%',#{roleName},'%')
+        </if>
+        <if test="param.status != null and param.status != ''">
+        	and status = #{status}
+        </if>
+        order by roleName asc
     </select>
 
     <select id="find" resultType="Role" parameterType="Role">

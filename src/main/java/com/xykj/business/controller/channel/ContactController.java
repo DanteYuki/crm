@@ -66,6 +66,7 @@ public class ContactController extends BaseController<Contact>{
     @ResponseBody
     public RsyResponse update(Contact contact) {
         try {
+        	System.out.println(contact.getId() + "," + contact.getSchoolId());
         	contactService.update(contact);
             return RsyResponse.success("更新失败");
         } catch (Exception e) {

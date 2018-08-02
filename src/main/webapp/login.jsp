@@ -3,7 +3,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="${pageContext.request.contextPath }/jquery/jquery-1.7.2.js"></script>
+<script src="${pageContext.request.contextPath }/static/jquery/jquery-1.12.3.js"></script>
+<script src="${pageContext.request.contextPath }/static/jquery/layer.js"></script>
 <title>CRM首頁</title>
 <style type="text/css">
 	input[type="button"] {
@@ -29,10 +30,12 @@
 	<br />
 	<input type="button" value="查询Level" id="btn_7"/>
 	<br />
-	<form action="${pageContext.request.contextPath }/backstage/attendance/upload" method="post" enctype="multipart/form-data">
+	<form action="${pageContext.request.contextPath }/backstage/social/upload" method="post" enctype="multipart/form-data">
 		<input type="file" name="file" id="file" />
-		<button>上传文件</button>
+		<input type="hidden" id="token" name="token" value="de550761bf4a42bd8e77575a481b577d_d922717148f64d40bdacaea7d2e1e475"/>
 	</form>
+	<button id="btn9">上传文件</button>
+	<a id="download"><button id="btn8">下载</button></a>
 </body>
 <script type="text/javascript">
 	$('#btn_1').on('click',function(){
@@ -148,6 +151,42 @@
 				console.log(data);
 			}
 		})
+	})
+	
+	$('#btn8').on('click',function(){
+		/*$.ajax({
+			url : '${pageContext.request.contextPath}/backstage/social/download',
+			type : 'get',
+			contentType : false,
+			async : true,
+			data : {token : 'de550761bf4a42bd8e77575a481b577d_d922717148f64d40bdacaea7d2e1e475'},
+			success : function(){
+			}
+		})*/
+		$('#download').attr('href','${pageContext.request.contextPath}/backstage/social/download');
+	})
+	
+	$('#btn9').on('click',function(){
+		var formData = new FormData();
+		formData.append('file',$('#file')[0].files[0]);
+		var token = $('#token').val();
+		formData.append('token',token);
+		console.log(formData);
+		$.ajax({
+            url: "${pageContext.request.contextPath}/backstage/social/upload",
+            data:  formData,
+            type: "Post",
+            dataType: "formData",
+            cache: false,//上传文件无需缓存
+            processData: false,//用于对data参数进行序列化处理 这里必须false
+            contentType: false, //必须
+            success: function (data) {
+				
+            },
+            error: function (data) {
+
+            }
+        })
 	})
 	
 </script>

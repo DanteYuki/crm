@@ -4,9 +4,9 @@
     <resultMap id="base" type="StepIntoClass"></resultMap>
     <insert id="insert" parameterType="StepIntoClass">
     	insert into tb_step_class (id,cityId,campusId,advisor,backgroundInfo,education,age,
-    	classId,headTeacher,courseTeacher,fbFromCT,fbFromHT) values 
+    	classId,headTeacher,courseTeacher,fbFromCT,fbFromHT,name,gender) values 
     	(#{id},#{cityId},#{campusId},#{advisor},#{backgroundInfo},#{education},#{age},
-    	#{classId},#{headTeacher},#{courseTeacher},#{fbFromCT},#{fbFromHT})
+    	#{classId},#{headTeacher},#{courseTeacher},#{fbFromCT},#{fbFromHT},#{name},#{gender})
     </insert>
 
     <delete id="delete" parameterType="StepIntoClass">
@@ -24,13 +24,30 @@
     	headTeacher = #{headTeacher},
     	courseTeacher = #{courseTeacher},
     	fbFromHT = #{fbFromHT},
-    	fbFromCT = #{fbFromCT}
+    	fbFromCT = #{fbFromCT},
+    	name = #{name},
+    	gender = #{gender}
     	where id = #{id}
     </update>
 	
     <!-- 初始化查询 -->
     <select id="findByPage" resultMap="base" parameterType="StepIntoClass">
-    	select * from tb_step_class
+    	select * from tb_step_class where 1 = 1
+    	<!-- 城市id查询 -->
+    	<if test="param.cityId != null and param.cityId != ''">
+    		and cityId = #{param.cityId}
+    	</if>
+    	<!-- 校区id查询 -->
+    	<if test="param.campusId != null and param.campusId != ''">
+    		and campusId = #{param.campusId}
+    	</if>
+    	<!-- 咨询师查询 -->
+    	<if test="param.advisor != null and param.advisor != ''">
+    		and advisor = #{param.advisor}
+    	</if>
+    	<if test="param.name != null and param.name != ''">
+    		and name like concat('%',#{param.name},'%')
+    	</if>
     </select>
 
     <select id="find" resultType="StepIntoClass" parameterType="StepIntoClass">

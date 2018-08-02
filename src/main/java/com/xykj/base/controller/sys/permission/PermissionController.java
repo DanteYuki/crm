@@ -70,12 +70,13 @@ public class PermissionController extends BaseController<Permission>{
 	@ResponseBody
 	public RsyResponse update(Permission permission){
 		try {
+			System.out.println(permission.getPermissionType());
 			permissionService.update(permission);
+			return RsyResponse.success("更新成功");
 		} catch (Exception e) {
-//			e.printStackTrace();
-			return RsyResponse.error("更新发生错误,请检查");
+			e.printStackTrace();
 		}
-		return RsyResponse.success("更新成功");
+		return RsyResponse.error("更新发生错误,请检查");
 	}
 	
 	/**

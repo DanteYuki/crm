@@ -10,17 +10,33 @@
     </insert>
 
     <delete id="delete" parameterType="School">
+    	delete from tb_school where id = #{id}
     </delete>
     <!-- 修改 -->
     <update id="update" parameterType="School">
+    	update tb_school set schoolName = #{schoolName},
+    	address = #{address},
+    	fee = #{fee},remark = #{remark}
+    	where id = #{id}
     </update>
 	
     <!-- 初始化查询 -->
     <select id="findByPage" resultMap="base" parameterType="School">
-    	select * from tb_school 
+    	select * from tb_school where 1 = 1
+    	<if test="param.schoolName != null and param.schoolName != ''">
+    		and schoolName like concat('%',#{param.schoolName},'%')
+    	</if>
+    	<if test="param.address != null and param.address != ''">
+    		and address like concat('%',#{param.address},'%')
+    	</if>
+    	order by schoolName
     </select>
 
     <select id="find" resultType="School" parameterType="School">
     	select * from tb_school where id = #{id}
+    </select>
+    
+    <select id="findSchools" resultMap="base" parameterType="School">
+    	select * from tb_school
     </select>
 </mapper>

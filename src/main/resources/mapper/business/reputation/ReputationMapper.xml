@@ -24,7 +24,35 @@
 	
     <!-- 初始化查询 -->
     <select id="findByPage" resultMap="base" parameterType="Reputation">
-    	select * from tb_reputation
+    	select * from tb_reputation where 1 = 1 
+    	<!-- 姓名查询 -->
+    	<if test="param.name != null and param.name != ''">
+    		and name like concat('%',#{param.name},'%')
+    	</if>
+    	<!-- 手机号码查询 -->
+    	<if test="param.mobile != null and param.mobile != ''">
+    		and mobile like concat('%',#{param.mobile},'%')
+    	</if>
+    	<!-- QQ查询 -->
+    	<if test="param.qq != null and param.qq != ''">
+    		and qq like concat('%',#{param.qq},'%')
+    	</if>
+    	<!-- WX查询 -->
+    	<if test="param.wx != null and param.wx != ''">
+    		and wx like concat('%',#{param.wx},'%')
+    	</if>
+    	<!-- 状态查询 -->
+    	<if test="param.status != null and param.status != ''">
+    		and status like concat('%',#{param.status},'%')
+    	</if>
+    	<!-- 科目查询 -->
+    	<if test="param.subject != null and param.subject != ''">
+    		and subject like concat('%',#{param.subject},'%')
+    	</if>
+    	<!-- 学历 -->
+    	<if test="param.education != null and param.education != ''">
+    		and education = #{param.education}
+    	</if>
     </select>
 
     <select id="find" resultType="Reputation" parameterType="Reputation">

@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,8 +19,7 @@ import com.xykj.base.entity.sys.permission.Permission;
 import com.xykj.base.entity.sys.role.Role;
 import com.xykj.base.exception.RsyLoginException;
 import com.xykj.base.service.BaseServiceImpl;
-import com.xykj.base.util.RsySession;
-import com.xykj.base.util.RsySessionUtil;
+import com.xykj.base.service.token.TokenManager;
 import com.xykj.base.util.UuidUtil;
 
 @Service("AccountService")
@@ -35,22 +32,14 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
 	@Autowired
 	private PermissionDao permissionDao;
 	@Autowired
-	private HttpServletRequest request;
-	@Autowired
-	private RsySessionUtil rsySessionUtil;
-	
-	
-	
+	private TokenManager tokenManager;
 	
 	@Override
 	public void insert(Account o) {
 		String accountId = UuidUtil.get32UUID();
 		o.setAccountId(accountId);
 		o.setCreateTime(new Date());
-		//由session取到的用户读取到创建人
-		RsySession rsySession = rsySessionUtil.getRsySession();
-		System.out.println(rsySession);
-		o.setCreateBy(rsySession.getAccount().getAccountName());
+		
 		o.setUpdateBy("");
 		o.setUpdateTime(null);
 		accountDao.insert(o);
@@ -66,8 +55,6 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
 	}
 	
 	public void update(Account o) {
-		String updateBy = rsySessionUtil.getRsySession().getAccount().getAccountName();
-		o.setUpdateBy(updateBy);
 		o.setUpdateTime(new Date());
 		super.update(o);
 	};
@@ -114,7 +101,10 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
 			throw new RsyLoginException("账户密码不匹配,请检查");
 		}
 		Map<String, Object> loginMap = new HashMap<>();
+		String token = tokenManager.getToken(checkAccount.getAccountId());
+		checkAccount.setToken(token);
 		loginMap.put("account", checkAccount);
+		
 		List<Role> roles = getRoles(checkAccount);
 		loginMap.put("roles", roles);
 		
@@ -124,17 +114,17 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
 			permissions.addAll(child);
 		}
 		loginMap.put("permissions", permissions);
-		RsySession rsySession = new RsySession();
-		System.out.println(rsySession);
-		rsySession.setAccount(checkAccount);
-		System.out.println(request.getSession().getId());
-		request.getSession().setAttribute("session", rsySession);
 		return loginMap;
 	}
 
 	@Override
 	public Account findByNameAndPwd(Account account) {
 		return accountDao.findByNameAndPwd(account);
+	}
+
+	@Override
+	public List<Account> findAllAdvisorByCampusId(String campusId) {
+		return accountDao.findAllAdvisorByCampusId(campusId);
 	}
 	
 	

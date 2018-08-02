@@ -15,11 +15,11 @@ public class CourseClass extends BaseEntity{
 	private City city;					//城市
 	private Campus campus;				//校区
 	private String className;			//班级名
-	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date assistTime;			//辅导时间
-	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date prepareTime;			//预科时间
-	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date openTime;				//开班时间
 	private int planCount;				//计划人数
 	private int realCount;				//实际开班人数

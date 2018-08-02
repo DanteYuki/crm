@@ -12,13 +12,14 @@
     </insert>
 
     <delete id="delete" parameterType="Permission">
-    	delete from sys_permission where permissionId = #{perissionId} 
+    	delete from sys_permission where permissionId = #{permissionId} 
     </delete>
     <!-- 修改 -->
     <update id="update" parameterType="Permission">
     	update sys_permission set
     	permissionName = #{permissionName},
-    	permissionType = #{permissionUrl},
+    	permissionType = #{permissionType},
+    	permissionUrl = #{permissionUrl},
     	parentId = #{parentId},
     	status = #{status},
     	sortNumber = #{sortNumber},
@@ -29,7 +30,11 @@
 
     <!-- 初始化查询 -->
     <select id="findByPage" resultMap="base" parameterType="Permission">
-    	select * from sys_permission
+    	select * from sys_permission where 1 = 1
+    	<if test="param.permissionName != null and param.permissionName != ''">
+    		permissionName like concat('%',#{param.permissionName},'%')
+    	</if>
+    	order by parentId asc,sortNumber asc
     </select>
 
     <select id="find" resultType="Permission" parameterType="Permission">
@@ -37,6 +42,10 @@
     </select>
     
     <select id="findByPageAndLevel" resultMap="base" parameterType="Permission">
-    	select * from sys_permission where plevel = #{plevel}
+    	select * from sys_permission where plevel = #{plevel} order by parentId asc,sortNumber asc
+    </select>
+    
+    <select id="findAllPermission" resultMap="base">
+    	select * from sys_permission
     </select>
 </mapper>

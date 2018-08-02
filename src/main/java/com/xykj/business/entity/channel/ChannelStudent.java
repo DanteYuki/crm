@@ -14,7 +14,7 @@ public class ChannelStudent extends BaseEntity{
 	private int sage;				//年龄
 	private String sgender;			//性别
 	private String schoolName;		//学校
-	private String education;		//就读学历   1.高中 2.大专 3.本科 4.研究生 5.博士 6.其他---基于配置
+	private int education;			//就读学历   1.高中 2.大专 3.本科 4.研究生 5.博士 6.其他---基于配置
 	private String mobile;			//移动电话
 	private String email;			//电子邮箱
 	private String qq;				//QQ号
@@ -22,6 +22,7 @@ public class ChannelStudent extends BaseEntity{
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date createTime;		//报名时间
 	private String createBy;		//创建人
+	private String remark;
 	public String getId() {
 		return id;
 	}
@@ -46,10 +47,11 @@ public class ChannelStudent extends BaseEntity{
 	public void setSchoolName(String schoolName) {
 		this.schoolName = schoolName;
 	}
-	public String getEducation() {
+	
+	public int getEducation() {
 		return education;
 	}
-	public void setEducation(String education) {
+	public void setEducation(int education) {
 		this.education = education;
 	}
 	public String getMobile() {
@@ -93,6 +95,12 @@ public class ChannelStudent extends BaseEntity{
 	}
 	public void setSgender(String sgender) {
 		this.sgender = sgender;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 	
 	

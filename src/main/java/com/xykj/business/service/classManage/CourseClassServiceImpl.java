@@ -47,6 +47,13 @@ public class CourseClassServiceImpl extends BaseServiceImpl<CourseClass> impleme
 	public List<CourseClass> findOne(CourseClass class1) {
 		return courseClassDao.findOne(class1);
 	}
+
+
+
+	@Override
+	public List<CourseClass> findAllClassByCampusId(String campusId) {
+		return courseClassDao.findClassByCampusId(campusId);
+	}
 	
 	
 }

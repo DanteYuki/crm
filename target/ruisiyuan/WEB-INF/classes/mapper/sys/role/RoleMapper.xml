@@ -15,14 +15,21 @@
     <update id="update" parameterType="Role">
      	update sys_role set
      	roleName = #{roleName},
-     	status = #{description},
+     	status = #{status},
      	description = #{description}
      	where roleId = #{roleId}
     </update>
 
     <!-- 初始化查询 -->
     <select id="findByPage" resultMap="base" parameterType="Role">
-        select * from sys_role
+        select * from sys_role where 1 = 1 
+        <if test="param.roleName != null and param.roleName != ''">
+        	and roleName like concat('%',#{roleName},'%')
+        </if>
+        <if test="param.status != null and param.status != ''">
+        	and status = #{status}
+        </if>
+        order by roleName asc
     </select>
 
     <select id="find" resultType="Role" parameterType="Role">
@@ -30,8 +37,21 @@
     </select>
     
     <!-- 获取角色对应的权限信息 -->
-    <select id="getPermissions" resultType="permission">
+    <select id="getPermissions" resultType="permission" parameterType="Role">
     	select s.* from sys_permission s ,sys_role_permission t
-    	where s.roleId = t.roleId
+    	where s.permissionId = t.permissionId and t.roleId = #{roleId}
+    </select>
+    
+    <insert id="insertRolePermission" parameterType="Role">
+    	insert into sys_role_permission (roleId,permissionId) values 
+   		(#{roleId},#{pid})
+    </insert>
+    
+    <delete id="deleteRolePermission" parameterType="Role">
+    	delete from sys_role_permission where roleId = #{roleId}
+    </delete>
+    
+    <select id="findAllRole" resultMap="base">
+    	select * from sys_role
     </select>
 </mapper>

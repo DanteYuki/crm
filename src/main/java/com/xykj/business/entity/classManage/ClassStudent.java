@@ -13,13 +13,65 @@ public class ClassStudent extends BaseEntity{
 	private String mobile;
 	private String qq;
 	private String wx;
-	private String education;
+	private int education;
 	private String remark;
 	private String classId;
 	private int credit;
 	private String socialId;
 	private String reputationId;
 	private String channelId;
+	private int status;
+	private String campusId;
+	private String advisorFeedback;
+	private double firstScore;
+	private double secondScore;
+	private double thirdScore;
+	private String firstInterviewRemark;
+	private double firstInterviewScore;
+	private String secondInterviewRemark;
+	private double secondInterviewScore;
+	public String getFirstInterviewRemark() {
+		return firstInterviewRemark;
+	}
+	public void setFirstInterviewRemark(String firstInterviewRemark) {
+		this.firstInterviewRemark = firstInterviewRemark;
+	}
+	public double getFirstInterviewScore() {
+		return firstInterviewScore;
+	}
+	public void setFirstInterviewScore(double firstInterviewScore) {
+		this.firstInterviewScore = firstInterviewScore;
+	}
+	public String getSecondInterviewRemark() {
+		return secondInterviewRemark;
+	}
+	public void setSecondInterviewRemark(String secondInterviewRemark) {
+		this.secondInterviewRemark = secondInterviewRemark;
+	}
+	public double getSecondInterviewScore() {
+		return secondInterviewScore;
+	}
+	public void setSecondInterviewScore(double secondInterviewScore) {
+		this.secondInterviewScore = secondInterviewScore;
+	}
+	public double getFirstScore() {
+		return firstScore;
+	}
+	public void setFirstScore(double firstScore) {
+		this.firstScore = firstScore;
+	}
+	public double getSecondScore() {
+		return secondScore;
+	}
+	public void setSecondScore(double secondScore) {
+		this.secondScore = secondScore;
+	}
+	public double getThirdScore() {
+		return thirdScore;
+	}
+	public void setThirdScore(double thirdScore) {
+		this.thirdScore = thirdScore;
+	}
 	public String getId() {
 		return id;
 	}
@@ -62,10 +114,10 @@ public class ClassStudent extends BaseEntity{
 	public void setWx(String wx) {
 		this.wx = wx;
 	}
-	public String getEducation() {
+	public int getEducation() {
 		return education;
 	}
-	public void setEducation(String education) {
+	public void setEducation(int education) {
 		this.education = education;
 	}
 	public String getRemark() {
@@ -103,6 +155,24 @@ public class ClassStudent extends BaseEntity{
 	}
 	public void setChannelId(String channelId) {
 		this.channelId = channelId;
+	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	public String getCampusId() {
+		return campusId;
+	}
+	public void setCampusId(String campusId) {
+		this.campusId = campusId;
+	}
+	public String getAdvisorFeedback() {
+		return advisorFeedback;
+	}
+	public void setAdvisorFeedback(String advisorFeedback) {
+		this.advisorFeedback = advisorFeedback;
 	}
 	
 }

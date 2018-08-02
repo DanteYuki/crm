@@ -15,13 +15,26 @@
     <update id="update" parameterType="Campus">
      	update tb_campus set campusName = #{campusName},campusLocation = #{campusLocation},
      	manager = #{manager} , mobile = #{mobile} , email = #{email},
-     	description = #{description} , cityName = #{cityName}
+     	description = #{description} , cityId = #{cityId}
      	where id = #{id}
     </update>
 
     <!-- 初始化查询 -->
     <select id="findByPage" resultMap="base" parameterType="Campus">
-        select * from tb_campus
+        select * from tb_campus where 1 = 1 
+        <if test="param.campusName != null and param.campusName != ''">
+        	and campusName = #{param.campusName}
+        </if>
+        <if test="param.cityId != null and param.cityId != ''">
+        	and cityId = #{cityId}
+        </if>
+        <if test="param.campusLocation != null and param.campusLocation != ''">
+        	and campusLocation like concat('%',#{param.campusLocation},'%')
+        </if>
+        <if test="param.manager != null and param.manager != ''">
+        	and manager like concat('%',param.manager,'%')
+        </if>
+        order by cityId,campusName
     </select>
 
     <select id="find" resultType="Campus" parameterType="Campus">

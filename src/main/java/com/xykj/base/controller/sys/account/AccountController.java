@@ -155,4 +155,16 @@ public class AccountController extends BaseController<Account>{
 		}
 		return RsyResponse.success("登录成功", loginMap);
 	}
+	
+	@RequestMapping(value = {"findAllAdvisor"},method = {RequestMethod.GET})
+	@ResponseBody
+	public RsyResponse findAllAdvisor(@RequestParam("campusId")String campusId){
+		try {
+			List<Account> list = accountService.findAllAdvisorByCampusId(campusId);
+			return RsyResponse.success("获取信息成功",list);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return RsyResponse.error("获取咨询师发生错误");
+	}
 }

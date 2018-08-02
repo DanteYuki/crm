@@ -13,16 +13,23 @@
     </delete>
     <!-- 修改 -->
     <update id="update" parameterType="City">
-     	update tb_city set cityName = #{name},province = #{province}
+     	update tb_city set cityName = #{cityName},province = #{province}
      	where id = #{id}
     </update>
 	
     <!-- 初始化查询 -->
     <select id="findByPage" resultMap="base" parameterType="City">
-        select * from tb_city
+        select * from tb_city where 1 = 1
+        <if test="param.cityName != null and param.cityName != ''">
+        	and cityName like concat('%',#{cityName},'%')
+        </if>
+        order by cityName asc
     </select>
 
     <select id="find" resultType="City" parameterType="City">
         select * from tb_city where id = #{id}
+    </select>
+    <select id="findAllCity" resultMap="base">
+    	select * from tb_city
     </select>
 </mapper>

@@ -6,10 +6,10 @@
     <insert id="insert" parameterType="Account">
 		insert into sys_account (accountId,accountName,password,nickName,
 		realName,headPicture,emailAddress,emailPassword,
-		createTime,createBy,updateTime,updateBy,status,description) values 
+		createTime,createBy,updateTime,updateBy,status,description,campusId) values 
 		(#{accountId},#{accountName},#{password},#{nickName},
 		#{realName},#{headPicture},#{emailAddress},#{emailPassword},
-		#{createTime},#{createBy},#{updateTime},#{updateBy},#{status},#{description})
+		#{createTime},#{createBy},#{updateTime},#{updateBy},#{status},#{description},#{campusId})
     </insert>
 
     <delete id="delete" parameterType="Account">
@@ -25,13 +25,27 @@
      	emailAddress = #{emailAddress},
      	emailPassword = #{emailPassword},
      	updateTime = #{updateTime},
-     	updateBy = #{updateBy}
+     	updateBy = #{updateBy},
+     	campusId = #{campusId}
      	where accountId = #{accountId}
     </update>
 
     <!-- 初始化查询 -->
     <select id="findByPage" resultMap="base" parameterType="Account">
-        select * from sys_account
+        select * from sys_account where 1 = 1 
+        <if test="param.accountName != null and param.accountName != ''">
+        	 and accountName like concat('%',#{param.accountName},'%')
+        </if>
+        <if test="param.nickName != null and param.nickName != ''">
+        	 and nickName like concat('%',#{param.nickName},'%')
+        </if>
+        <if test="param.realName != null and param.realName != ''">
+        	 and realName like concat('%',#{param.realName},'%')
+        </if>
+        <if test="param.campusId != null and param.campusId != ''">
+        	and campusId = #{param.campuId}
+        </if>
+        order by accountName asc
     </select>
 
     <select id="find" resultType="Account" parameterType="Account">
@@ -39,8 +53,9 @@
     </select>
     
     <!--获取账户拥有的角色列表  -->
-    <select id="findRolesByAccount" resultType="List" parameterType="Role">
-    	select * from sys_account_role where accountId = #{accountId}
+    <select id="findRolesByAccount" resultType="role" parameterType="Account">
+    	select r.* from sys_role r, sys_account_role s where r.roleId = s.roleId 
+    	and s.accountId = #{accountId}
     </select>
     
     <!-- 级联删除账户拥有的所有角色 -->
@@ -58,5 +73,14 @@
     
     <select id="findByNameAndPwd" parameterType="Account" resultType="Account">
     	select * from sys_account where accountName = #{accountName} and password = #{password}
+    </select>
+    
+    <insert id="insertAccountRoleBatch" >
+    	insert into sys_account_role values (#{roleId},#{accountId})
+    </insert>
+    
+    <select id="findAllAdvisorByCampusId" resultMap="base">
+    	select t1.* from sys_account t1,sys_account_role t2 where t1.campusId = #{campusId} and 
+    	t1.accountId = t2.accountId and t2.roleId = '1a33f9d89cfc42f6859fcfa91eda2ef2'
     </select>
 </mapper>

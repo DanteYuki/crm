@@ -42,7 +42,8 @@ public class Account extends BaseEntity{
     private String updateBy;		//修改者	
     private int status;				//状态 0 : 禁用  1 : 正常
     private String description;		//账户描述
-    
+    private String campusId;		//校园ID
+
 	public Account() {
 		super();
 	}
@@ -155,6 +156,14 @@ public class Account extends BaseEntity{
 				+ ", emailAddress=" + emailAddress + ", emailPassword=" + emailPassword + ", createTime=" + createTime
 				+ ", createBy=" + createBy + ", updateTime=" + updateTime + ", updateBy=" + updateBy + ", status="
 				+ status + ", description=" + description + "]";
+	}
+
+	public String getCampusId() {
+		return campusId;
+	}
+
+	public void setCampusId(String campusId) {
+		this.campusId = campusId;
 	}
 	
 }

@@ -22,4 +22,11 @@ public interface AccountService extends BaseService<Account>{
 	
 	public Account findByNameAndPwd(Account account);
 	
+	/**
+	 * 获取校区所有咨询师
+	 *
+	 * @params
+	 * @return
+	 */
+	public List<Account> findAllAdvisorByCampusId(String campusId);
 }

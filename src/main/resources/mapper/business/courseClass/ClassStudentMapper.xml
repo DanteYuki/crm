@@ -4,9 +4,9 @@
     <resultMap id="base" type="ClassStudent"></resultMap>
     <insert id="insert" parameterType="ClassStudent">
     	insert into tb_class_student (id,name,gender,age,mobile,qq,wx,education,remark,classId,
-    	credit,socialId,reputationId,channelId) values (
+    	credit,socialId,reputationId,channelId,status) values (
     	#{id},#{name},#{gender},#{age},#{mobile},#{qq},#{wx},#{education},#{remark},#{classId},
-    	#{credit},#{socialId},#{reputationId},#{channelId}
+    	#{credit},#{socialId},#{reputationId},#{channelId},#{status}
     	)
     </insert>
 
@@ -18,15 +18,80 @@
     	update tb_class_student set name = #{name},gender = #{gender},age = #{age}, mobile = #{mobile},
     	qq = #{qq},wx = #{wx},education = #{education},remark = #{remark},classId = #{classId},
     	credit = #{credit},socialId = #{socialId},reputationId = #{reputationId},
-    	channelId = #{channelId}
+    	channelId = #{channelId} where id = #{id}
     </update>
 	
     <!-- 初始化查询 -->
     <select id="findByPage" resultMap="base" parameterType="ClassStudent">
-    	select * from tb_class_student
+    	select t.*
+    	 from tb_class_student t, tb_course_class s  where 1 = 1 and t.classId = s.id 
+    	<if test="param.campusId != null and param.campusId != ''">
+    		and s.campusId = #{param.campusId}
+    	</if>
+    	<if test="param.name != null and param.name != ''">
+    		and t.name like concat('%',#{param.name},'%')
+    	</if>
+    	<if test="param.mobile != null and param.mobile != ''">
+    		and t.mobile like concat('%',#{param.mobile},'%')
+    	</if>
+    	<if test="param.qq != null and param.qq != ''">
+    		and t.qq like concat('%',#{param.qq},'%')
+    	</if>
+    	<if test="param.wx != null and param.wx != ''">
+    		and t.wx like concat('%',#{param.wx},'%')
+    	</if>
+    	<if test="param.education != null and param.education != ''">
+    		and t.education = #{param.education}
+    	</if>
+    	<if test="param.classId != null and param.classId != ''">
+    		and t.classId = #{param.classId}
+    	</if>
+    	<if test="param.socialId != null and param.socialId !=  ''">
+    		and t.socialId = #{param.socialId}
+    	</if>
+    	<if test="param.reputationId != null and param.reputationId != ''">
+    		and t.reputationId = #{param.reputation}
+    	</if>
+    	<if test="param.channelId != null and param.channelId != ''">
+    		and t.channelId = #{param.channelId}
+    	</if>
+    	order by classId asc
     </select>
 
     <select id="find" resultType="ClassStudent" parameterType="ClassStudent">
     	select * from tb_class_student where id = #{id}
     </select>
+    
+    <!-- 扣分加分 -->
+    <update id="changeCredit" parameterType="ClassStudent">
+    	update tb_class_student set credit = (credit + #{credit}) where id = #{id}
+    </update>
+    
+    <!-- 转班留级 -->
+    <update id="downNext" parameterType="ClassStudent">
+    	update tb_class_student set classId = #{class_id} , status = #{param1.status} where id = #{param1.id}
+    </update>
+    <!-- 休学退学 -->
+    <update id="quit" parameterType="ClassStudent">
+    	update tb_class_student set classId = #{class_id}, status = #{param1.status} where id = #{param1.id}
+    </update>
+    
+    <!-- 根据电话号码获取信息 -->
+    <select id="findByPhoneNumber" resultType="ClassStudent">
+    	select * from tb_class_student where mobile = #{phoneNo}
+    </select>
+    <!-- 传入第一次阶段考试成绩 -->
+    <update id="insertFirst" parameterType="ClassStudent">
+    	update tb_class_student set firstScore = #{firstScore} where id = #{id};
+    </update>
+    
+    <!-- 传入第二次阶段考试成绩 -->
+    <update id="insertSecond" parameterType="ClassStudent">
+    	update tb_class_student set secondScore = #{secondScore} where id = #{id}
+    </update>
+    
+    <!-- 传入第三次阶段考试成绩 -->
+    <update id="insertThird" parameterType="ClassStudent">
+    	update tb_class_student set thirdScore = #{thirdScore} where id = #{id}
+    </update>
 </mapper>

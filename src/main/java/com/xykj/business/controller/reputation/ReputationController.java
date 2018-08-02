@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xykj.base.commom.RsyResponse;
@@ -38,9 +39,9 @@ public class ReputationController extends BaseController<Reputation>{
 	//添加
     @RequestMapping(value = "insert")
     @ResponseBody
-    public RsyResponse add(Reputation reputation) {
+    public RsyResponse add(Reputation reputation,@RequestParam("classId") String classId) {
         try {
-        	reputationService.insert(reputation);
+        	reputationService.insertStudent(reputation, classId);
             return RsyResponse.success("添加成功");
         } catch (Exception e) {
 

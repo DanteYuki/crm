@@ -28,12 +28,10 @@
 	<bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
           <property name="locations">
               <list>
-                  <value>classpath:/*.properties</value>
+                  <value>classpath:/db.properties</value>
+                  <value>classpath:/redis.properties</value>
               </list>
           </property>
-    </bean>
-    <bean id="rsySessionUtil" class="com.xykj.base.util.RsySessionUtil">
-    
     </bean>
     
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
@@ -41,4 +39,6 @@
     </bean>
     <!-- spring-mybatis配置文件 -->
 	<import resource="classpath:spring-mybatis.xml"/>
+	<!-- redis -->
+	<import resource="classpath:spring-redis.xml"/>
 </beans>

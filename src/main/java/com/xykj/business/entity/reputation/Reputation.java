@@ -29,9 +29,10 @@ public class Reputation extends BaseEntity{
 	private int recommonendFee;			//推荐费
 	private String graduateFrom;		//毕业学校
 	private int graduateYear;			//毕业年限
-	private String education;			//学历
+	private int education;				//学历
 	private String createBy;			//创建人
 	private Date createTime;			//创建时间
+	private String remark;				//备注
 	public String getId() {
 		return id;
 	}
@@ -122,10 +123,10 @@ public class Reputation extends BaseEntity{
 	public void setGraduateYear(int graduateYear) {
 		this.graduateYear = graduateYear;
 	}
-	public String getEducation() {
+	public int getEducation() {
 		return education;
 	}
-	public void setEducation(String education) {
+	public void setEducation(int education) {
 		this.education = education;
 	}
 	public String getCreateBy() {
@@ -139,6 +140,18 @@ public class Reputation extends BaseEntity{
 	}
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+	public int getGender() {
+		return gender;
+	}
+	public void setGender(int gender) {
+		this.gender = gender;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 	
 }

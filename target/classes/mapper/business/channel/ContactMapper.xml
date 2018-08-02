@@ -9,16 +9,24 @@
     </insert>
 
     <delete id="delete" parameterType="Contact">
+    	delete from tb_contact where id = #{id}
     </delete>
     <!-- 修改 -->
     <update id="update" parameterType="Contact">
+    	update tb_contact set contactName = #{contactName},
+    	mobile = #{mobile},
+    	post = #{post},
+    	schoolId = #{schoolId}
+    	where id = #{id}
     </update>
 	
     <!-- 初始化查询 -->
     <select id="findByPage" resultMap="base" parameterType="Contact">
+    	select * from tb_contact
     </select>
 
     <select id="find" resultType="Contact" parameterType="Contact">
+    	select * from tb_contact where id = #{id}
     </select>
     
     <delete id="deleteById">

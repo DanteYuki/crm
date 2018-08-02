@@ -26,11 +26,11 @@ public class SimpleCORSFilter implements Filter{
     public void doFilter(ServletRequest req, ServletResponse res,  
             FilterChain chain) throws IOException, ServletException {  
             HttpServletResponse response = (HttpServletResponse) res;  
-//          response.setHeader("Access-Control-Allow-Origin", "*"); 
-            response.setHeader("Access-Control-Allow-Origin", "http://192.168.2.155:8080");
+            response.setHeader("Access-Control-Allow-Origin", "*"); 
+//            response.setHeader("Access-Control-Allow-Origin", "http://192.168.2.155:8080");
 //            response.setHeader("Access-Control-Allow-Origin", "http://183.12.244.150:8080");
             response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");  
-            response.setHeader("Access-Control-Allow-Credentials", "true");
+//            response.setHeader("Access-Control-Allow-Credentials", "true");
             response.setHeader("Access-Control-Max-Age", "3600");  
             response.setHeader("Access-Control-Allow-Headers", "x-requested-with");  
             chain.doFilter(req, res);  

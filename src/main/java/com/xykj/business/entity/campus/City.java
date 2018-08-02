@@ -7,6 +7,8 @@ import com.xykj.base.entity.BaseEntity;
 @Alias("City")
 public class City extends BaseEntity{
 	private String id;
+	private String cityName;	//城市名字
+	private String province;	//所在省份
 	
 	public String getId() {
 		return id;
@@ -14,8 +16,6 @@ public class City extends BaseEntity{
 	public void setId(String id) {
 		this.id = id;
 	}
-	private String cityName;	//城市名字
-	private String province;	//所在省份
 	public String getCityName() {
 		return cityName;
 	}

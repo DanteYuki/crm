@@ -23,5 +23,7 @@ public interface AccountDao extends BaseDao<Account>{
 	public void insertAccountRoleBatch(@Param("roleId") String roleIds,@Param("accountId") String accountId);
 	
 	public Account findByNameAndPwd(Account account);
+	
+	public List<Account> findAllAdvisorByCampusId(@Param("campusId")String campusId);
 
 }

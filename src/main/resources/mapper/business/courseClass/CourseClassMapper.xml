@@ -56,15 +56,30 @@
 		t3.manager campus_manager,t3.mobile campus_mobile,t3.email campus_email,t3.description campus_description
 		from tb_course_class t1,tb_city t2,tb_campus t3 where t2.id=t1.cityId
     	and t3.id = t1.campusId
+    	<!-- 城市ID查询 
+    	<if test="param.city.id != null and param.city.id != ''">
+    		and t2.id = #{param.city.id}
+    	</if>
+    	-->
+    	<!-- 校区ID查询 
+    	<if test="param.campus.id != null and param.campus.id != ''">
+    		and t3.id = #{param.campus.id}
+    	</if>
+    	-->
+    	<!-- 科目 查询 -->
+    	<if test="param.subject != null and param.subject != ''">
+    		and t1.subject like concat('%',#{param.subject},'%')
+    	</if>
     </select>
 
-    <select id="find" resultMap="base" parameterType="CourseClass">
+    <select id="find" resultType="CourseClass" parameterType="CourseClass">
     	select t1.*,
 		t2.id city_id,t2.cityName city_name,t2.province province,
 		t3.id campus_id,t3.campusName campus_name,t3.campusLocation campus_location,
 		t3.manager campus_manager,t3.mobile campus_mobile,t3.email campus_email,t3.description campus_description
 		from tb_course_class t1,tb_city t2,tb_campus t3 where t1.id=#{id} and t2.id=t1.cityId
-    	and t3.id = t1.campusId
+    	and t3.id = t1.campusId 
+    	
     </select>
     
     <select id="findOne" resultMap="base" parameterType="CourseClass">
@@ -74,5 +89,15 @@
 		t3.manager campus_manager,t3.mobile campus_mobile,t3.email campus_email,t3.description campus_description
 		from tb_course_class t1,tb_city t2,tb_campus t3 where t1.id=#{id} and t2.id=t1.cityId
     	and t3.id = t1.campusId
+    </select>
+    
+    <!-- 获取校区所有班级 -->
+    <select id="findClassByCampusId" resultMap="base" parameterType="CourseClass">
+    	select  t1.*,
+		t2.id city_id,t2.cityName city_name,t2.province province,
+		t3.id campus_id,t3.campusName campus_name,t3.campusLocation campus_location,
+		t3.manager campus_manager,t3.mobile campus_mobile,t3.email campus_email,t3.description campus_description
+    	from tb_course_class t1 , tb_city t2, tb_campus t3 where t2.id = t1.cityId
+    	and t3.id = t1.campusId and t1.campusId = #{campusId}
     </select>
 </mapper>

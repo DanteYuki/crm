@@ -7,6 +7,8 @@ import com.xykj.base.entity.BaseEntity;
 @Alias("StepIntoClass")
 public class StepIntoClass extends BaseEntity{
 	private String id;
+	private String name;
+	private int gender;
 	private String cityId;
 	private String campusId;
 	private String advisor;
@@ -18,6 +20,19 @@ public class StepIntoClass extends BaseEntity{
 	private String courseTeacher;
 	private String fbFromCT;
 	private String fbFromHT;
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getGender() {
+		return gender;
+	}
+	public void setGender(int gender) {
+		this.gender = gender;
+	}
 	public String getId() {
 		return id;
 	}
