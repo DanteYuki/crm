@@ -117,6 +117,10 @@ public class ClassStudentServiceImpl extends BaseServiceImpl<ClassStudent> imple
 		studentException.setStudentId(o.getId());
 		//异常类型
 		studentException.setEtype(1);
+		//设置学分变化数
+		studentException.setChange(0 - classStudent.getCredit());
+		//设置当前学分数
+		studentException.setCurrentScore(o.getCredit() - classStudent.getCredit());
 		//之前班级
 		studentException.setClassBefore(o.getClassId());
 		//之后班级

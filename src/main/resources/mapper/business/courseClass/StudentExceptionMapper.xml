@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xykj.business.dao.classManage.StudentExceptionDao">
+    <resultMap id="base" type="StudentException"></resultMap>
+    <insert id="insert" parameterType="StudentException">
+    	insert into tb_class_exception (studentId,etype,cause,remark,classBefore,classAfter,operator,
+    	eTime,dTime,currentScore,change) values (
+    		#{studentId},#{etype},#{cause},#{remark},#{classBefore},#{classAfter},#{operator},#{eTime},
+    		#{dTime},#{currentScore},#{change}
+    	)
+    </insert>
+
+    <delete id="delete" parameterType="StudentException">
+     	
+    </delete>
+    <!-- 修改 -->
+    <update id="update" parameterType="StudentException">
+     	
+    </update>
+	
+    <!-- 初始化查询,不显示加分 扣分异常 -->
+    <select id="findByPage" resultMap="base" parameterType="StudentException">
+       select * from tb_class_exception where 1 = 1 and etype not in (1,2)
+       <if test="param.studentId != null and param.studentId != ''">
+       		and studentId = #{param.studentId}
+       </if>
+       <if test="param.etype != null and param.etype != ''">
+       		and etype = #{etype}
+       </if>
+    </select>
+    
+    <!-- 单独查询扣分加分明细 -->
+    <select id="findScoreException" resultMap="base" parameterType="StudentException">
+    	select * from tb_class_exception where studentId = #{studentId} and etype in (1,2)
+    </select>
+</mapper>

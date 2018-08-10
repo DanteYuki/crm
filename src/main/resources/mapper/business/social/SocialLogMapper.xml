@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xykj.business.dao.social.SocialLogDao">
+    <resultMap id="base" type="SocialLog"></resultMap>
+    <insert id="insert" parameterType="SocialLog">
+    	insert into tb_social_advertise_log (socialId,sname,sage,sgender,mobile,email,qq,wx,arriveTime,
+    	education,graduateYear,graduateFrom,address,createTime,createBy,advisor,source,grade,job,invitor,
+    	feedback,teacher,status,isTry,isPay,operator,operateTime) values (
+    	#{socialId},#{sname},#{sage},#{sgender},#{mobile},#{email},#{qq},#{wx},#{arriveTime},
+    	#{education},#{graduateYear},#{graduateFrom},#{address},#{createTime},#{createBy},#{advisor},
+    	#{source},#{grade},#{job},#{invitor},#{feedback},#{teacher},#{status},#{isTry},#{isPay},
+    	#{operator},#{operateTime}
+    	)
+    </insert>
+
+    <delete id="delete" parameterType="SocialLog">
+    	delete from tb_social_advertise_log where id = #{id}
+    </delete>
+    <!-- 修改 -->
+    <update id="update" parameterType="SocialLog">
+    	
+    </update>
+	
+    <!-- 初始化查询 -->
+    <select id="findByPage" resultMap="base" parameterType="SocialLog">
+    	select * from tb_social_advertise_log where 1 = 1
+    	<if test="param.socialId != null and param.socialId != ''">
+    		and socialId = #{param.socialId}
+    	</if>
+    	<if test="param.sname != null and param.sname != ''">
+    		and sname like concat('%',#{param.sname},'%')
+    	</if>
+    	<if test="param.mobile != null and param.mobile != ''">
+    		and mobile = #{param.mobile}
+    	</if>
+    </select>
+    
+    <!-- 查询单个 -->
+    <select id="find" resultType="SocialLog" parameterType="SocialLog">
+    	select * from tb_social_advertise_log where id = #{id}
+    </select>
+    
+    
+    <select id="findLogs" resultMap="base" parameterType="SocialLog">
+    	select * from tb_social_advertise_log where socialId = #{socialId}
+    </select>
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xykj.base.dao.sys.config.ConfigDao">
+    <resultMap id="base" type="Config"></resultMap>
+    <insert id="insert" parameterType="Config">
+    	insert into tb_config (ktype,kkey,kvalue) values (#{ktype},#{kkey},#{kvalue})
+    </insert>
+
+    <delete id="delete" parameterType="Config">
+    	delete from tb_config where ktype = #{ktype} and kkey = #{kkey}
+    </delete>
+    <!-- 修改 -->
+    <update id="update" parameterType="Config">
+    	update tb_config set kvalue = #{kvalue} where ktype = #{ktype} and kkey = #{kkey}
+    </update>
+	
+    <!-- 初始化查询 -->
+    <select id="findByPage" resultMap="base" parameterType="Config">
+    	select * from tb_config 
+    	where 1 = 1 
+    	<if test="param.ktype != null and param.ktype != ''"  >
+    		and ktype = #{param.ktype}
+    	</if>
+    	order by ktype
+    </select>
+
+    <select id="find" resultType="Config" parameterType="Config">
+    	select * from tb_config where ktype = #{ktype} and kkey = #{kkey}
+    </select>
+    <select id="findConfigs" resultMap="base" parameterType="Config">
+    	select * from tb_config where 1 = 1 
+    	<if test="ktype != null and ktype != ''">
+    		and ktype = #{ktype}
+    	</if>
+    </select>
+</mapper>

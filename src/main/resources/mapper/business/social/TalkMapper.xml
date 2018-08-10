@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xykj.business.dao.classManage.TalkDao">
+    <resultMap id="base" type="Talk">
+    	<id property="id" column="id"></id>
+    	<result property="headTeacher" column="headTeacher"/>
+    	<result property="content" column="content"/>
+    	<result property="talkTime" column="talkTime"/>
+    	<result property="cause" column="cause"/>
+    	<association property="student" column="studentId" javaType="ClassStudent">
+    		<id property="id" column="student_id"/>
+    		<result property="name" column="name"/>
+    		<result property="gender" column="gender"/>
+    		<result property="age" column="age"/>
+			<result property="mobile" column="mobile"/>
+			<result property="qq" column="qq"/>
+			<result property="wx" column="wx"/>
+			<result property="education" column="education"/>
+			<result property="remark" column="remark"/>
+			<result property="classId" column="classId"/>
+			<result property="credit" column="credit"/>
+			<result property="socialId" column="socialId"/>
+			<result property="reputationId" column="reputationId"/>
+			<result property="channelId" column="channelId"/>
+    	</association>
+    </resultMap>
+    <insert id="insert" parameterType="Talk">
+    	insert into tb_head_talk (studentId,headTeacher,content,talkTime,cause) values (
+    		#{studentId},#{param1.headTeacher},#{param1.content},#{param1.talkTime},#{param1.cause}
+    	)
+    </insert>
+
+    <delete id="delete" parameterType="Talk">
+    </delete>
+    <!-- 修改 -->
+    <update id="update" parameterType="Talk">
+    </update>
+	
+    <!-- 初始化查询 -->
+    <select id="findByPage" resultMap="base" parameterType="Talk">
+    </select>
+
+    <select id="find" resultType="Talk" parameterType="Talk">
+    </select>
+    
+    <select id="findTalkById" resultMap="base" parameterType="java.lang.String">
+    	select t1.* ,t2.id student_id, t2.name,t2.gender,t2.age,t2.mobile,t2.qq,t2.wx,t2.education,t2.remark,t2.classId,
+		t2.credit,t2.socialId,t2.reputationId,t2.channelId    	
+    	 from tb_head_talk t1,tb_class_student t2 where studentId = #{studentId} and 
+    	t1.studentId = t2.id
+    </select>
+</mapper>
