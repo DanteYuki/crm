@@ -4,7 +4,7 @@
     <resultMap id="base" type="StudentException"></resultMap>
     <insert id="insert" parameterType="StudentException">
     	insert into tb_class_exception (studentId,etype,cause,remark,classBefore,classAfter,operator,
-    	eTime,dTime,currentScore,change) values (
+    	eTime,dTime,currentScore,`change`) values (
     		#{studentId},#{etype},#{cause},#{remark},#{classBefore},#{classAfter},#{operator},#{eTime},
     		#{dTime},#{currentScore},#{change}
     	)

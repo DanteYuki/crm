@@ -48,4 +48,6 @@ public interface SocialDao extends BaseDao<Social>{
 	public void divide(Social social);
 	
 	public void insertFeedback(Social social);
+	
+	public void insertBackgroundInfo(Social social);
 }

@@ -174,5 +174,16 @@ public class ClassStudent extends BaseEntity{
 	public void setAdvisorFeedback(String advisorFeedback) {
 		this.advisorFeedback = advisorFeedback;
 	}
+	@Override
+	public String toString() {
+		return "ClassStudent [id=" + id + ", name=" + name + ", gender=" + gender + ", age=" + age + ", mobile="
+				+ mobile + ", qq=" + qq + ", wx=" + wx + ", education=" + education + ", remark=" + remark
+				+ ", classId=" + classId + ", credit=" + credit + ", socialId=" + socialId + ", reputationId="
+				+ reputationId + ", channelId=" + channelId + ", status=" + status + ", campusId=" + campusId
+				+ ", advisorFeedback=" + advisorFeedback + ", firstScore=" + firstScore + ", secondScore=" + secondScore
+				+ ", thirdScore=" + thirdScore + ", firstInterviewRemark=" + firstInterviewRemark
+				+ ", firstInterviewScore=" + firstInterviewScore + ", secondInterviewRemark=" + secondInterviewRemark
+				+ ", secondInterviewScore=" + secondInterviewScore + "]";
+	}
 	
 }

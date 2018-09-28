@@ -48,7 +48,8 @@ public class Social extends BaseEntity{
 	private String tryTime;			//试学时间 
 	private String enrollTime;		//报名时间
 	private int signal;				//标志
-	private String tryLearnFeedback;	//咨询师反馈
+	private String tryLearnFeedback;//咨询师反馈
+	private String backgroundInfo;  //背景信息
 	
 	public String getTryTime() {
 		return tryTime;
@@ -251,5 +252,11 @@ public class Social extends BaseEntity{
 	}
 	public void setTryLearnFeedback(String tryLearnFeedback) {
 		this.tryLearnFeedback = tryLearnFeedback;
+	}
+	public String getBackgroundInfo() {
+		return backgroundInfo;
+	}
+	public void setBackgroundInfo(String backgroundInfo) {
+		this.backgroundInfo = backgroundInfo;
 	}
 }

@@ -249,10 +249,12 @@ public class SocialServiceImpl extends BaseServiceImpl<Social> implements Social
 	@Override
 	public void download(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		//开发环境
-		String filePath =  request.getSession().getServletContext().getRealPath("demo")+"\\"+"demo.xlsx";
+//		String filePath =  request.getSession().getServletContext().getRealPath("demo")+"\\"+"demo.xlsx";
 //		System.out.println(filePath);
-		//服务器
+		//测试服务器
 //		String filePath = "/root/crm_version1.0/tomcat8/webapps/ruisiyuan/demo/demo.xlsx";
+		//正式服务器
+		String filePath = "/root/crm_version1.0/tomcat/apache-tomcat-8.0.53/webapps/ruisiyuan/demo/demo.xlsx";
 		BufferedInputStream bis = new BufferedInputStream(new FileInputStream(new File(filePath)));
 		byte[] buffer = new byte[10240];
 		int len = 0;
@@ -613,5 +615,11 @@ public class SocialServiceImpl extends BaseServiceImpl<Social> implements Social
 				}
 			}
 		}
+	}
+
+
+	@Override
+	public void insertBackgroundInfo(Social social) {
+		socialDao.insertBackgroundInfo(social);
 	}
 }

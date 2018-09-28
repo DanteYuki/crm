@@ -108,4 +108,12 @@ public interface SocialService extends BaseService<Social>{
 	 * @return
 	 */
 	public void divide(String socialIds,String advisor);
+	
+	/**
+	 * 添加上门量背景信息
+	 *
+	 * @params
+	 * @return
+	 */
+	public void insertBackgroundInfo (Social social);
 }

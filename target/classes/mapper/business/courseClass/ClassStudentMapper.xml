@@ -73,7 +73,7 @@
     </update>
     <!-- 休学退学 -->
     <update id="quit" parameterType="ClassStudent">
-    	update tb_class_student set classId = #{class_id}, status = #{param1.status} where id = #{param1.id}
+    	update tb_class_student set classId = #{classId}, status = #{status} where id = #{id}
     </update>
     
     <!-- 根据电话号码获取信息 -->

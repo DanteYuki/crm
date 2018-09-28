@@ -292,4 +292,13 @@ public class SocialController extends BaseController<Social>{
 		}
 		return RsyResponse.error("添加发生错误");
 	}
+	
+	public RsyResponse insertBackgroundInfo(Social social) {
+		try {
+			socialService.insertBackgroundInfo(social);
+			return RsyResponse.success("添加背景信息成功");
+		} catch (Exception e) {
+		}
+		return RsyResponse.error("添加背景信息发生错误");
+	}
 }

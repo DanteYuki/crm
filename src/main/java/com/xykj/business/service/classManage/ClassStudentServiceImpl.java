@@ -170,8 +170,10 @@ public class ClassStudentServiceImpl extends BaseServiceImpl<ClassStudent> imple
 	@Override
 	public void downNext(ClassStudent classStudent, String classId,StudentException studentException) {
 		String token = classStudent.getToken();
+		System.out.println(classStudent.getId());
 		Account account = tokenManager.getCurrentAccount(token);
 		ClassStudent o = classStudentDao.find(classStudent);
+		System.out.println(o);
 		//留级4,转班3
 		//设置异常类型(转班或者留级需要传入异常类型studentException.etype)
 		if (studentException.getEtype() == 3) {
@@ -233,8 +235,10 @@ public class ClassStudentServiceImpl extends BaseServiceImpl<ClassStudent> imple
 	@Override
 	public void pause(ClassStudent classStudent,StudentException studentException) {
 		String token = classStudent.getToken();
+		System.out.println(classStudent.getId());
 		Account account = tokenManager.getCurrentAccount(token);
 		ClassStudent o = classStudentDao.find(classStudent);
+		System.out.println(o);
 		classStudentDao.quit(o);
 		o.setStatus(3);
 		//设置ID
@@ -363,6 +367,10 @@ public class ClassStudentServiceImpl extends BaseServiceImpl<ClassStudent> imple
 		courseClass = courseClassDao.find(courseClass);
 		//查询班级所有学生数据
 		List<Map<String, Object>> mapList = baseJoinSqlDao.findByJoinSql("select * from tb_class_student where classId = '" + classId + "'");
+		//获取学历配置
+		List<Map<String, Object>> educationMapList = baseJoinSqlDao.
+				findByJoinSql("select * from tb_config where ktype = '" + "education" + "'");
+		
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		XSSFSheet sheet = workbook.createSheet();
 		//创建表头
@@ -381,7 +389,6 @@ public class ClassStudentServiceImpl extends BaseServiceImpl<ClassStudent> imple
 		Cell cell11 = headRow.createCell(11);
 		Cell cell12 = headRow.createCell(12);
 		Cell cell13 = headRow.createCell(13);
-		Cell cell14 = headRow.createCell(14);
 		
 		//设置表头的值
 		cell0.setCellValue("学生姓名");
@@ -394,20 +401,73 @@ public class ClassStudentServiceImpl extends BaseServiceImpl<ClassStudent> imple
 		cell7.setCellValue("备注");
 		cell8.setCellValue("班级名称");
 		cell9.setCellValue("咨询反馈");
-		cell10.setCellValue("试学反馈");
-		cell11.setCellValue("第一次面试反馈");
-		cell12.setCellValue("第一次面试成绩");
-		cell13.setCellValue("第二次面试反馈");
-		cell14.setCellValue("第二次面试成绩");
+		cell10.setCellValue("第一次面试反馈");
+		cell11.setCellValue("第一次面试成绩");
+		cell12.setCellValue("第二次面试反馈");
+		cell13.setCellValue("第二次面试成绩");
 		
-		//读取mapList中的内容
+		//获取班级名称
+		String global_class_name = courseClass.getClassName();
+		
+		//行数
 		int count = 1;
-		for (Map<String, Object> map : mapList) {
-			//学生姓名 
-			String studentName = (String) map.get("name");
+		//读取mapList中的内容
+		for (int i = 0 ;i < mapList.size();i++) {
+			Map<String, Object> map = mapList.get(i);
+			//学生姓名
+			String name = (String)map.get("name");
 			//年龄
-//			int age = map.get("")
+			Integer age = (Integer)map.get("age");
+			//性别
+			Integer genderInt = (Integer)map.get("age");
+			String gender = genderInt == 0 ? "女" : "男";
+			
+			//移动电话
+			String mobile = (String)map.get("mobile");
+			//QQ
+			String qq = (String)map.get("qq");
+			//微信
+			String wx = (String)map.get("wx");
+			
+			//获取学历字段
+			Integer educationKey = (Integer)map.get("education");
+			//从配置文件中获取学历配置
+			Map<String, Object> educationMap = baseJoinSqlDao.
+					findByJoinSql("select * from tb_config where ktype = '" + "education" + "' where "
+							+ "kkey = " + educationKey).get(0);
+			String education = (String)educationMap.get("kvalue");
+			
+			String remark = (String)map.get("remark");
+			
+			//班级名称
+			String className = global_class_name;
+			//咨询反馈
+			String advisorFeedback = (String) map.get("advisorFeedback");
+			
+			//由获取到的数据导入基础的模拟面试成绩上传模板
+			//创建行
+			Row row = sheet.createRow(count);
+			row.createCell(0).setCellValue(name);
+			row.createCell(1).setCellValue(age);
+			row.createCell(2).setCellValue(gender);
+			row.createCell(3).setCellValue(mobile);
+			row.createCell(4).setCellValue(qq);
+			row.createCell(5).setCellValue(wx);
+			row.createCell(6).setCellValue(education);
+			row.createCell(7).setCellValue(remark);
+			row.createCell(8).setCellValue(className);
+			row.createCell(9).setCellValue(advisorFeedback);
 		}
+		
+		//设置文件下载头  
+		BufferedOutputStream bous = new BufferedOutputStream(response.getOutputStream());
+		response.setCharacterEncoding("utf-8");
+		response.setHeader("Content-Disposition", "attachment;filename=" + courseClass.getClassName() + ".xlsx");
+        //设置文件ContentType类型，自动判断下载文件类型    
+        response.setContentType("multipart/form-data");
+		
+		workbook.write(bous);
+		bous.close();
 	}
 	
 	

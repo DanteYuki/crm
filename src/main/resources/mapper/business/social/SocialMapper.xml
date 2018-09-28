@@ -132,4 +132,9 @@
     	update tb_social_advertise set advisor = #{advisor} where id = #{id}
     </update>
     
+    <!-- 更新上门量背景信息 -->
+    <update id="insertBackgroundInfo" parameterType="Social">
+    	update tb_social_advertise set backgroundInfo = #{backgroundInfo} where id = #{id}
+    </update>
+    
 </mapper>
